@@ -14,8 +14,9 @@ loaded_model = pickle.load(open("pima.pickle.dat", "rb"))
 
 
 
-HOST_ADDRESS = "127.0.0.1"
-PORT = 5000
+HOST_ADDRESS = "0.0.0.0"
+# HOST_ADDRESS = "127.0.0.1"
+# PORT = 5000
 
 eeg_signal = [ 512,  525,  525,  422,  322,  191,   89,  -13, -102, -163, -198,
        -199, -171, -140, -147, -138, -151, -205, -311, -449, -477, -453,
