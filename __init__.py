@@ -5,6 +5,9 @@ import websockets
 import random
 import json
 import numpy as np
+import os
+PORT = os.environ.get('PORT', 5000)
+
 
 import pickle
 from sklearn.preprocessing import StandardScaler
