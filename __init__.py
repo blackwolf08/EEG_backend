@@ -51,10 +51,8 @@ def generated_json():
         end = 30
         test = scaler.transform(np.array([eeg_signal]))
         if loaded_model.predict(np.array(test))[0] == 0:
-            print("no epilepsy")
             result = False
         else:
-            print("epilepsy")
             result = True
     extra_data = {"is_epilepsy_detected":result}
     return {"eeg_signal_list":eeg_signal_list, "extra_data":extra_data}
