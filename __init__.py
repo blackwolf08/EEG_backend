@@ -17,6 +17,24 @@ scaler = pickle.load(open('scaler.sav', 'rb'))
 loaded_model = pickle.load(open("pima.pickle.dat", "rb"))
 
 
+from twilio.rest import Client
+
+account_sid = "ACae3514f541d5877b687ae3d5566eda99"
+auth_token  = "9667a5dbfca7654c18505ce2e58b78de"
+
+client = Client(account_sid, auth_token)
+
+messageSent = False
+
+def sendMessage() :
+    print('sending message')
+    message = client.messages.create(
+            to= '+919958470889',
+            from_= '+19183794343',
+            body= 'Yahan mara padha hun mein bsdk!'
+        )
+    print(message.sid)
+
 
 HOST_ADDRESS = "0.0.0.0"
 # HOST_ADDRESS = "127.0.0.1"
@@ -28,7 +46,7 @@ start = 0
 end = 30
 result = False
 
-sending_data = person1.eeg_signal
+sending_data = person2.eeg_signal
 
 
 STATE = {
@@ -40,6 +58,7 @@ def generated_json():
     global start
     global end
     global result
+    global messageSent
     
     eeg_signal_list = sending_data[start:end]
     start += 1
@@ -52,6 +71,9 @@ def generated_json():
             result = False
         else:
             result = True
+            if not messageSent:
+                messageSent = True
+                sendMessage()
     extra_data = {"is_epilepsy_detected":result}
     return {"eeg_signal_list":eeg_signal_list, "extra_data":extra_data}
 
