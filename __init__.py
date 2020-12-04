@@ -53,7 +53,7 @@ def generated_json():
         else:
             result = True
     extra_data = {"is_epilepsy_detected":result}
-    return {"eeg_signal_list":eeg_signal_list, "which": STATE['which']}
+    return {"eeg_signal_list":eeg_signal_list, "extra_data":extra_data}
 
 async def set_state(websocket):
     global STATE
