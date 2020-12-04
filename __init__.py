@@ -19,7 +19,7 @@ loaded_model = pickle.load(open("pima.pickle.dat", "rb"))
 
 
 HOST_ADDRESS = "0.0.0.0"
-HOST_ADDRESS = "127.0.0.1"
+# HOST_ADDRESS = "127.0.0.1"
 
 
 GRAPH_DATA_RATE = 0.1 # in seconds
