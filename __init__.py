@@ -5,7 +5,7 @@ import websockets
 import random
 import json
 import numpy as np
-from eeg_signals import *
+import person1, person2
 import os
 PORT = os.environ.get('PORT', 5000)
 
@@ -21,9 +21,6 @@ loaded_model = pickle.load(open("pima.pickle.dat", "rb"))
 HOST_ADDRESS = "0.0.0.0"
 HOST_ADDRESS = "127.0.0.1"
 
-STATE = {
-    'person':'one'
-}
 
 GRAPH_DATA_RATE = 0.1 # in seconds
 
@@ -31,8 +28,12 @@ start = 0
 end = 30
 result = False
 
+sending_data = person1.eeg_signal
 
 
+STATE = {
+    'which' : 1
+}
 
 
 def generated_json():
@@ -40,28 +41,31 @@ def generated_json():
     global end
     global result
     
-    eeg_signal_list =  eeg_signal[start:end]
+    eeg_signal_list = sending_data[start:end]
     start += 1
     end += 1
-    if end > len(eeg_signal):
+    if end > len(sending_data):
         start = 0
         end = 30
-        test = scaler.transform(np.array([eeg_signal]))
+        test = scaler.transform(np.array([sending_data]))
         if loaded_model.predict(np.array(test))[0] == 0:
             result = False
         else:
             result = True
     extra_data = {"is_epilepsy_detected":result}
-    return {"eeg_signal_list":eeg_signal_list, "extra_data":extra_data}
+    return {"eeg_signal_list":eeg_signal_list, "which": STATE['which']}
 
 async def set_state(websocket):
     global STATE
     async for msg in websocket:
         if(msg == 'two'):
-            STATE['person'] = 'two'
+            STATE['which'] = 2
+            sending_data = person1.eeg_signal
         if(msg == 'one'):
-            STATE['person'] = 'one'
-        print(STATE)
+            STATE['which'] = 1
+            sending_data = person2.eeg_signal
+        start = 0
+        end = 30
 
 
 async def send_data(websocket):
