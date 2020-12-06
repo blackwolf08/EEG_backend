@@ -31,7 +31,7 @@ messageSent = False
 #     message = client.messages.create(
 #             to= '+919958470889',
 #             from_= '+19183794343',
-#             body= 'Yahan mara padha hun mein bsdk!'
+#             body= 'Find me here.'
 #         )
 #     print(message.sid)
 
