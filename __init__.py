@@ -59,7 +59,9 @@ def generated_json():
     global end
     global result
     global messageSent
-    
+    global sending_data
+    global STATE
+
     eeg_signal_list = sending_data[start:end]
     start += 1
     end += 1
@@ -73,21 +75,27 @@ def generated_json():
             result = True
             if not messageSent:
                 messageSent = True
-                sendMessage()
+                # sendMessage()
     extra_data = {"is_epilepsy_detected":result}
-    return {"eeg_signal_list":eeg_signal_list, "extra_data":extra_data}
+    return {"eeg_signal_list":eeg_signal_list, "extra_data":extra_data, "person":STATE['which']}
 
 async def set_state(websocket):
     global STATE
+    global result
+    global sending_data
+    global start
+    global end
     async for msg in websocket:
+        print(msg)
+        result = False
         if(msg == 'two'):
             STATE['which'] = 2
             messageSent = False
-            sending_data = person1.eeg_signal
+            sending_data = person2.eeg_signal
         if(msg == 'one'):
             STATE['which'] = 1
             messageSent = False
-            sending_data = person2.eeg_signal
+            sending_data = person1.eeg_signal
         start = 0
         end = 30
 
